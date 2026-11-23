@@ -1,0 +1,24 @@
+/* Archive + confirmation pages: the same old-newsprint look as the landing page. */
+:root { --paper:#f1e8d4; --paper-edge:#e4d6b8; --ink:#1d1b17; --ink-soft:#4a443a; --hair:#b9aa8b; --spot:#8e2b1d; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root { --paper:#1c1a16; --paper-edge:#14120f; --ink:#ebe2cd; --ink-soft:#b8ad96; --hair:#4d463a; --spot:#e0806d; color-scheme: dark; } }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); font: 18px/1.65 "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  background: linear-gradient(90deg, var(--paper-edge), transparent 14%, transparent 86%, var(--paper-edge)), var(--paper); }
+.page { max-width: 720px; margin: 0 auto; padding: 28px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)); }
+.mark { display: block; text-align: center; font: 400 clamp(36px, 8vw, 64px)/1 "UnifrakturMaguntia", "Old English Text MT", Georgia, serif; color: var(--ink); text-decoration: none; padding-bottom: 10px; border-bottom: 3px double var(--ink); }
+h1, h2, h3 { font-family: "Playfair Display", "Times New Roman", Georgia, serif; font-weight: 900; line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(30px, 5.4vw, 46px); margin: 24px 0 8px; }
+h2 { font-size: 26px; margin-top: 40px; padding-top: 10px; border-top: 1px solid var(--hair); }
+a { color: var(--spot); }
+blockquote { margin: 0 0 16px; padding: 4px 0 4px 16px; border-left: 3px solid var(--spot); font-style: italic; }
+table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--hair); vertical-align: top; font-size: 15px; }
+th { border-bottom: 2px solid var(--ink); }
+code { font-family: Menlo, Consolas, monospace; font-size: 14px; }
+hr { border: 0; border-top: 1px solid var(--hair); margin: 32px 0; }
+.meta { color: var(--ink-soft); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin-top: 18px; }
+.list { list-style: none; padding: 0; border-top: 2px solid var(--ink); }
+.list li { padding: 16px 0; border-bottom: 1px solid var(--hair); }
+.list a { font: 900 22px/1.2 "Playfair Display", Georgia, serif; text-decoration: none; color: var(--ink); }
+.list a:hover { color: var(--spot); }
+.subscribe { margin-top: 48px; padding: 16px; border: 2px dashed var(--ink); text-align: center; }

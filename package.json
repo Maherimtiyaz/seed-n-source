@@ -1,0 +1,26 @@
+{
+  "name": "seed-n-source",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Seed & Source — a weekly newsletter about how startups are built, run by a local team of Claude agents.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "issue": "tsx scripts/new-issue.ts",
+    "preview": "tsx scripts/preview.ts",
+    "send": "tsx scripts/send.ts",
+    "build": "tsx scripts/build-site.ts",
+    "test": "tsx --test 'tests/**/*.test.ts'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "marked": "^18.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3"
+  }
+}

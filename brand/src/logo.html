@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_base.css">
+<style>
+.sq { width: 512px; height: 512px; position: relative; display: grid; place-items: center; overflow: hidden; }
+/* A: monogram on ink — the Gmail / social avatar */
+#monogram { background: var(--ink); color: var(--paper); }
+#monogram .ring { position: absolute; inset: 34px; border-radius: 50%; border: 3px solid var(--paper); }
+#monogram .ring2 { position: absolute; inset: 46px; border-radius: 50%; border: 1px solid var(--paper); opacity: .7; }
+#monogram .mono { font-size: 200px; line-height: 1; letter-spacing: -4px; transform: translateY(-14px); }
+#monogram .mono span { color: #e0806d; }
+#monogram .seed { position: absolute; bottom: 104px; left: 50%; width: 18px; height: 12px; margin-left: -9px; border-radius: 50%; background: #e0806d; }
+/* B: sprout mark on paper */
+.sq svg { width: 430px; height: 430px; }
+/* C: wordmark for email headers */
+#wordmark { width: 1200px; height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#wordmark .w { font-size: 150px; line-height: 1; }
+#wordmark .m { font-style: italic; font-size: 26px; color: var(--ink-soft); margin-top: 10px; }
+</style></head><body>
+<div class="sq" id="monogram"><div class="ring"></div><div class="ring2"></div><div class="mono mast">S<span>&amp;</span>S</div></div>
+
+<div class="sq" id="avatar-ink" style="background:#1d1b17"><svg viewBox="0 0 200 200" fill="none" stroke="#f1e8d4" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M40 124H160" stroke-width="6"/>
+  <path d="M100 160V64"/>
+  <path d="M100 96c0-22 15-33 38-33 0 22-15 33-38 33Z" fill="#4a443a" stroke-width="8"/>
+  <path d="M100 108c0-18-12-27-31-27 0 18 12 27 31 27Z" fill="#4a443a" stroke-width="8"/>
+  <circle cx="100" cy="46" r="18" fill="#e0806d" stroke="none"/>
+  <path d="M100 138c-12 4-22 10-28 22M100 138c12 4 22 10 28 22" stroke-width="7"/>
+</svg></div>
+<div class="sq paper" id="avatar-paper"><svg viewBox="0 0 200 200" fill="none" stroke="#1d1b17" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M40 124H160" stroke-width="6"/>
+  <path d="M100 160V64"/>
+  <path d="M100 96c0-22 15-33 38-33 0 22-15 33-38 33Z" fill="#d8ccb1" stroke-width="8"/>
+  <path d="M100 108c0-18-12-27-31-27 0 18 12 27 31 27Z" fill="#d8ccb1" stroke-width="8"/>
+  <circle cx="100" cy="46" r="18" fill="#8e2b1d" stroke="none"/>
+  <path d="M100 138c-12 4-22 10-28 22M100 138c12 4 22 10 28 22" stroke-width="7"/>
+</svg></div>
+
+<div class="paper" id="wordmark"><div class="w mast">Seed &amp; Source</div><div class="m">How startups are planted, and what they're built from.</div></div>
+<!-- flat (no paper texture) versions for email, where the texture shows as a box -->
+<div id="wordmark-email" style="width:1200px;height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f1e8d4"><div class="w mast" style="font-size:150px;line-height:1">Seed &amp; Source</div><div class="m" style="font-style:italic;font-size:26px;color:#4a443a;margin-top:10px">How startups are planted, and what they're built from.</div></div>
+</body></html>

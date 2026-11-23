@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're planted · Seed &amp; Source</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:wght@900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="/assets/archive.css">
+<style>
+  .planted { text-align: center; }
+  .sprout { display: block; width: 150px; height: 150px; margin: 26px auto 0; color: var(--ink); }
+  .sprout .leaf { fill: color-mix(in srgb, currentColor 14%, transparent); }
+  .sprout .bloom { fill: var(--spot); stroke: none; }
+  .kick { margin: 10px 0 0; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--spot); font-weight: 700; }
+  .planted h1 { margin-top: 6px; }
+  .lede { font-style: italic; font-size: 20px; color: var(--ink-soft); max-width: 34em; margin: 0 auto 14px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .sprout .d { stroke-dasharray: 1; animation: draw 1.2s cubic-bezier(.2,.7,.1,1) both; }
+    .sprout .s2 { animation-delay: .7s; }
+    .sprout .bloom { transform-origin: 100px 46px; animation: bloom .6s 1.4s cubic-bezier(.2,.7,.1,1) both; }
+    @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+    @keyframes bloom { from { transform: scale(0); } to { transform: scale(1); } }
+  }
+</style>
+</head>
+<body>
+<main class="page planted">
+  <a class="mark" href="/">Seed &amp; Source</a>
+  <svg class="sprout" viewBox="0 0 200 200" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path class="g" d="M30 124H170" stroke-width="4" stroke-dasharray="8 8"/>
+    <path class="d s1" pathLength="1" d="M100 160V64"/>
+    <path class="d s2 leaf" pathLength="1" d="M100 96c0-22 15-33 38-33 0 22-15 33-38 33Z"/>
+    <path class="d s2 leaf" pathLength="1" d="M100 108c0-18-12-27-31-27 0 18 12 27 31 27Z"/>
+    <circle class="bloom" cx="100" cy="46" r="16"/>
+    <path class="d s1" pathLength="1" d="M100 138c-12 4-22 10-28 22M100 138c12 4 22 10 28 22" stroke-width="6"/>
+  </svg>
+  <p class="kick" id="kick">Founding reader · Vol. I</p>
+  <h1 id="title">You're planted.</h1>
+  <p class="lede" id="message">Every company in this paper began as a seed in the dark. So does every paper, and you're one of its first seeds. A welcome letter is on its way to your inbox, and the first edition arrives on Tuesday.</p>
+  <p id="tip">Add the sender to your contacts so the paper lands on your doorstep, not in spam.</p>
+  <p><a href="/">Back to the front page</a> · <a href="/issues/">Past editions</a></p>
+</main>
+<script>
+  const status = new URLSearchParams(location.search).get("status");
+  const set = (id, text) => { document.getElementById(id).textContent = text; };
+  if (status === "expired" || status === "error") {
+    document.querySelector(".sprout").style.display = "none";
+    document.getElementById("tip").style.display = "none";
+    set("kick", "Notice");
+  }
+  if (status === "expired") {
+    set("title", "That link has expired.");
+    set("message", "Confirmation links work for 48 hours. Sign up again on the front page and we'll send a fresh one.");
+  } else if (status === "error") {
+    set("title", "Something went wrong on our side.");
+    set("message", "Your link was fine, but we couldn't add you just now. Please try the link again in a few minutes.");
+  }
+</script>
+</body>
+</html>

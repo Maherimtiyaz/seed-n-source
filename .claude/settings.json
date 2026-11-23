@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(npm run send)",
+      "Bash(npm run send *)",
+      "Bash(npx tsx scripts/send.ts)",
+      "Bash(npx tsx scripts/send.ts *)",
+      "Bash(tsx scripts/send.ts *)",
+      "Bash(node *)",
+      "Bash(curl *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./sent.json)",
+      "Write(./sent.json)"
+    ]
+  }
+}

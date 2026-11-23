@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seed &amp; Source</title>
+<meta name="description" content="A free weekly newsletter about how startups are built: the idea, the business, the code and the tools behind them. One company, every Tuesday.">
+<meta property="og:title" content="Seed &amp; Source">
+<meta property="og:description" content="Every company you admire was once a seed in the dark. One startup a week, from the first idea down to the stack.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://seedandsource.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: an old broadsheet that comes alive. A news ticker and an inked masthead open the
+   front page; the lead story sits above the fold. Below it, a pinned stage grows one plant
+   as you scroll (seed → roots → sprout → stem → bloom) while the page turns from newsprint
+   to night ink underground and back. Ends with clip-out coupons. */
+:root {
+  --paper: #f1e8d4;
+  --paper-edge: #e4d6b8;
+  --ink: #1d1b17;
+  --ink-soft: #4a443a;
+  --hair: #b9aa8b;
+  --spot: #8e2b1d;
+  --night: #191612;        /* "night ink": the underground page tone */
+  --night-ink: #efe6d2;
+  --night-soft: #b9ad95;
+  --soil: #2a231b;
+  --font-mast: "UnifrakturMaguntia", "Old English Text MT", Georgia, serif;
+  --font-head: "Playfair Display", "Times New Roman", Georgia, serif;
+  --font-body: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c1a16; --paper-edge: #14120f; --ink: #ebe2cd; --ink-soft: #b8ad96; --hair: #4d463a; --spot: #e0806d;
+    --night: #0e0c0a; --night-ink: #efe6d2; --night-soft: #a99e88; --soil: #15110d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c1a16; --paper-edge: #14120f; --ink: #ebe2cd; --ink-soft: #b8ad96; --hair: #4d463a; --spot: #e0806d;
+  --night: #0e0c0a; --night-ink: #efe6d2; --night-soft: #a99e88; --soil: #15110d; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--ink); font: 17px/1.6 var(--font-body); background-color: var(--paper);
+  background-image:
+    linear-gradient(90deg, var(--paper-edge), transparent 14%, transparent 86%, var(--paper-edge)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.sheet { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 900; text-wrap: balance; margin: 0; line-height: 1.02; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--spot); outline-offset: 3px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---------- news ticker ---------- */
+.ticker { display: flex; background: var(--ink); color: var(--paper); overflow: hidden; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+.ticker .label { position: relative; z-index: 2; flex: none; background: var(--spot); color: #fff7ec; padding: 7px 14px; font-weight: 700; }
+.ticker .track { display: flex; width: max-content; padding: 7px 0; }
+.ticker .item { padding-inline: 22px; white-space: nowrap; }
+.ticker .item::after { content: "✦"; margin-left: 44px; opacity: .55; }
+@media (prefers-reduced-motion: no-preference) {
+  .ticker .track { animation: tick 46s linear infinite; }
+  .ticker:hover .track { animation-play-state: paused; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+}
+
+/* ---------- masthead ---------- */
+.ears { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; line-height: 1.35; color: var(--ink-soft); padding-top: 18px; }
+.ears .ear { max-width: 210px; border: 1px solid var(--hair); padding: 6px 8px; }
+.ears .ear b { color: var(--ink); }
+.mast { text-align: center; margin: 4px 0 2px; }
+.mast h1 { font-family: var(--font-mast); font-weight: 400; font-size: clamp(48px, 11.5vw, 140px); line-height: 1; }
+.mast .motto { font-style: italic; font-size: clamp(14px, 1.8vw, 17px); color: var(--ink-soft); margin-top: 4px; }
+.dateline { position: relative; margin-top: 10px; padding: 7px 0; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; }
+.dateline::before, .dateline::after { content: ""; position: absolute; left: 0; right: 0; transform-origin: center; }
+.dateline::before { top: 0; border-top: 3px double var(--ink); }
+.dateline::after { bottom: 0; border-top: 1px solid var(--ink); }
+.dateline nav { display: flex; gap: 16px; flex-wrap: wrap; }
+.dateline a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .35s var(--ease); }
+.dateline a:hover { background-size: 100% 1px; }
+.mob-only { display: none; }
+
+/* ink-press entrance: the masthead stamps in, the rules draw outward */
+@media (prefers-reduced-motion: no-preference) {
+  .mast h1 { animation: press 1.1s var(--ease) both; }
+  .mast .motto { animation: fadeUp .9s .45s var(--ease) both; }
+  .dateline::before, .dateline::after { animation: rule 1s .25s var(--ease) both; }
+  @keyframes press { 0% { opacity: 0; transform: scale(1.06); filter: blur(8px); letter-spacing: .06em; } 60% { opacity: 1; filter: blur(0); } 100% { transform: scale(1); letter-spacing: 0; } }
+  @keyframes rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+}
+
+/* ---------- front page ---------- */
+.front { display: grid; grid-template-columns: 2.1fr 1fr; margin-top: 22px; }
+.front > * { min-width: 0; }
+.lead { padding-right: 30px; border-right: 1px solid var(--ink); }
+.kicker { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--spot); font-weight: 700; }
+.lead h2 { font-size: clamp(40px, 6.6vw, 82px); letter-spacing: -0.012em; margin-top: 10px; }
+.lead h2 em { font-style: italic; font-weight: 700; color: var(--spot); }
+/* headline lines rise out of a mask, one after another */
+.line { display: block; overflow: hidden; padding-bottom: .06em; }
+.line > span { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .line > span { animation: rise 1s var(--ease) both; animation-delay: calc(.5s + var(--i, 0) * .12s); }
+  @keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
+}
+.deck { font-family: var(--font-head); font-style: italic; font-weight: 700; font-size: clamp(18px, 2vw, 22px); line-height: 1.32; margin-top: 16px; color: var(--ink-soft); }
+.typer { font-style: normal; color: var(--ink); border-bottom: 2px solid var(--spot); white-space: nowrap; }
+.caret { display: inline-block; width: 2px; height: 1em; background: var(--spot); vertical-align: -0.12em; margin-left: 2px; }
+@media (prefers-reduced-motion: no-preference) { .caret { animation: blink 1s steps(1) infinite; } @keyframes blink { 50% { opacity: 0; } } }
+.byline { margin-top: 16px; padding-block: 6px; border-block: 1px solid var(--hair); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.cols { margin-top: 16px; column-count: 2; column-gap: 28px; column-rule: 1px solid var(--hair); text-align: justify; hyphens: auto; }
+.cols p + p { margin-top: .8em; text-indent: 1.4em; }
+.dropcap::first-letter { float: left; font-family: var(--font-head); font-weight: 900; font-size: 4.2em; line-height: .82; padding: .06em .08em 0 0; }
+.jump { margin-top: 14px; font-style: italic; font-size: 14px; }
+.jump a { color: var(--spot); }
+
+.side { padding-left: 26px; display: flex; flex-direction: column; gap: 20px; }
+.side h3, .back h3 { font-size: 15px; letter-spacing: .14em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 4px; }
+.index { list-style: none; margin: 8px 0 0; padding: 0; font-size: 15px; }
+.index li { border-bottom: 1px dotted var(--hair); }
+.index a { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; text-decoration: none; transition: padding .3s var(--ease), color .3s; }
+.index a:hover { padding-left: 6px; color: var(--spot); }
+.index a span:last-child { color: var(--ink-soft); white-space: nowrap; }
+
+/* clip-out coupon */
+.coupon { position: relative; border: 2px dashed var(--ink); padding: 18px 16px 14px; background: color-mix(in srgb, var(--paper) 72%, #fff 28%); overflow: visible; }
+:root[data-theme="dark"] .coupon { background: color-mix(in srgb, var(--paper) 88%, #fff 12%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .coupon { background: color-mix(in srgb, var(--paper) 88%, #fff 12%); } }
+.coupon .scissors { position: absolute; top: -14px; left: 14px; background: var(--paper); padding: 0 6px; font-size: 18px; line-height: 1; }
+.coupon .title { font-family: var(--font-head); font-weight: 900; font-size: 22px; line-height: 1.1; text-align: center; }
+.coupon .sub { text-align: center; font-size: 13px; font-style: italic; color: var(--ink-soft); margin-top: 4px; }
+.coupon .field { margin-top: 12px; display: flex; flex-direction: column; gap: 4px; }
+.coupon label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+.coupon input[type="email"] { font: inherit; font-size: 16px; padding: 8px 2px; border: 0; border-bottom: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 0; transition: border-color .3s; }
+.coupon input[type="email"]:focus { outline: none; border-bottom-color: var(--spot); }
+.coupon button { position: relative; overflow: hidden; margin-top: 12px; width: 100%; font: 700 15px var(--font-body); letter-spacing: .14em; text-transform: uppercase; padding: 11px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; transition: transform .2s var(--ease); }
+.coupon button::before { content: ""; position: absolute; inset: 0; background: var(--spot); transform: translateY(101%); transition: transform .4s var(--ease); }
+.coupon button span { position: relative; }
+.coupon button:hover::before { transform: none; }
+.coupon button:active { transform: scale(.98); }
+.coupon button:disabled { opacity: .6; cursor: progress; }
+.coupon .fine { margin-top: 8px; font-size: 11px; text-align: center; color: var(--ink-soft); }
+.note { font-size: 13px; text-align: center; min-height: 1.3em; margin-top: 6px; }
+.note[data-state="error"] { color: var(--spot); }
+/* success: the rubber stamp */
+.stamp { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; opacity: 0; }
+.stamp span { border: 3px solid var(--spot); color: var(--spot); padding: 6px 12px; font: 900 18px/1.1 var(--font-head); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(-9deg); background: color-mix(in srgb, var(--paper) 80%, transparent); }
+.coupon.done .stamp { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .coupon.done .stamp span { animation: stampIn .5s var(--ease) both; }
+  .coupon.done .scissors { animation: cut 1.1s var(--ease) both; }
+  @keyframes stampIn { 0% { transform: rotate(-9deg) scale(2.2); opacity: 0; } 70% { transform: rotate(-9deg) scale(.94); opacity: 1; } 100% { transform: rotate(-9deg) scale(1); } }
+  @keyframes cut { to { left: calc(100% - 40px); } }
+}
+
+/* ---------- by the numbers ---------- */
+.numbers { margin-top: 40px; border-block: 3px double var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
+.numbers > div { padding: 18px 16px; border-right: 1px solid var(--hair); min-width: 0; }
+.numbers > div:last-child { border-right: 0; }
+.numbers .big { font-family: var(--font-head); font-weight: 900; font-size: clamp(38px, 5vw, 64px); line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.numbers .big small { font-size: .45em; font-weight: 700; margin-left: 4px; }
+.numbers .what { margin-top: 6px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+.fold { margin: 46px 0 0; display: flex; align-items: center; gap: 14px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+.fold::before, .fold::after { content: ""; flex: 1; border-top: 1px dashed var(--ink-soft); }
+
+/* ---------- the growth scene (pinned scrollytelling) ---------- */
+.scene { position: relative; margin-top: 18px; color: var(--ink); background: transparent; transition: background-color .8s var(--ease), color .8s var(--ease); }
+.scene[data-phase="under"] { background-color: var(--night); color: var(--night-ink); }
+.scene-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding-block: 28px; }
+.stage svg { width: 100%; height: 60vh; height: 60svh; overflow: visible; }
+.readout { display: flex; justify-content: space-between; align-items: end; gap: 14px; border-top: 1px solid currentColor; padding-top: 10px; }
+.readout .k { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
+.readout .v { font-family: var(--font-head); font-weight: 900; font-size: clamp(26px, 3.2vw, 40px); line-height: 1; }
+.dots { display: flex; gap: 8px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid currentColor; transition: background-color .4s, transform .4s var(--ease); }
+.dots i.on { background: currentColor; transform: scale(1.15); }
+
+/* plant drawing: each stage's strokes are drawn by --p (0..1), set by scroll */
+.plant path, .plant circle, .plant ellipse { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 1)); }
+.plant .soil-fill { fill: var(--soil); stroke: none; stroke-dasharray: none; }
+.plant .ground { stroke-dasharray: 6 6; stroke-dashoffset: 0; stroke-width: 1.5; opacity: .7; }
+.plant .petal { fill: color-mix(in srgb, var(--spot) calc(var(--p, 1) * 80%), transparent); stroke: var(--spot); }
+.plant .bud { fill: color-mix(in srgb, var(--spot) calc(var(--p, 1) * 100%), transparent); stroke: var(--spot); }
+.plant .leaf { fill: color-mix(in srgb, currentColor calc(var(--p, 1) * 14%), transparent); }
+.plant .grain { fill: var(--night-soft); stroke: none; stroke-dasharray: none; opacity: .35; }
+.plant .label { fill: currentColor; stroke: none; stroke-dasharray: none; font: 12px var(--font-body); letter-spacing: .14em; text-transform: uppercase; opacity: .6; }
+
+.chapters { padding-block: 10vh 20vh; }
+.chapter { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding-block: 8vh; }
+.chapter .tag { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; opacity: .75; }
+.chapter .tag b { color: var(--spot); }
+.chapter h2 { font-size: clamp(32px, 4.4vw, 56px); margin-top: 8px; }
+.chapter .deck { color: inherit; opacity: .78; font-size: clamp(17px, 1.8vw, 20px); margin-top: 10px; }
+.chapter .text { margin-top: 18px; display: grid; gap: 14px; font-size: 18px; max-width: 46ch; }
+.chapter .see { margin-top: 20px; align-self: flex-start; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; padding: 7px 12px; border: 1px solid currentColor; font-size: 13px; }
+.chapter .see b { font-family: var(--font-head); font-weight: 900; }
+.chapter .see .lab { font-variant: small-caps; letter-spacing: .08em; opacity: .75; }
+
+/* reveal on scroll (only when JS + motion are available; otherwise content is simply visible) */
+html.anim [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+html.anim [data-reveal].in { opacity: 1; transform: none; }
+
+/* ---------- back page ---------- */
+.back { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 3px double var(--ink); margin-top: 40px; padding-top: 16px; }
+.back > * { min-width: 0; padding-inline: 18px; border-right: 1px solid var(--hair); }
+.back > *:first-child { padding-left: 0; }
+.back > *:last-child { border-right: 0; padding-right: 0; }
+.facts { margin: 10px 0 0; display: grid; gap: 8px; font-size: 15px; }
+.facts dt { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.facts dd { margin: 0 0 4px; }
+.ad { margin-top: 12px; border: 1px solid var(--ink); padding: 10px 12px; font-size: 14px; text-align: center; }
+.ad b { display: block; font-family: var(--font-head); font-size: 18px; }
+.colophon { margin-top: 30px; padding-block: 10px 40px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); }
+
+@media (max-width: 900px) {
+  .front { grid-template-columns: 1fr; }
+  .lead { padding-right: 0; border-right: 0; }
+  .side { padding-left: 0; margin-top: 24px; }
+  .cols { column-count: 1; text-align: left; }
+  .numbers { grid-template-columns: repeat(2, 1fr); }
+  .numbers > div:nth-child(2) { border-right: 0; }
+  .numbers > div:nth-child(-n+2) { border-bottom: 1px solid var(--hair); }
+  .scene-inner { grid-template-columns: 1fr; }
+  .stage { height: 46svh; z-index: 2; background: inherit; padding-block: 10px; gap: 6px; transition: background-color .8s var(--ease); }
+  .scene[data-phase="under"] .stage { background: var(--night); }
+  .scene:not([data-phase="under"]) .stage { background: var(--paper); }
+  .stage svg { height: 30svh; }
+  .chapters { padding-block: 0 10vh; }
+  .chapter { min-height: 70vh; padding-block: 6vh; }
+  .back { grid-template-columns: 1fr; }
+  .back > * { padding-inline: 0; border-right: 0; padding-block: 12px; }
+  .ears .ear { max-width: 46%; }
+}
+@media (max-width: 520px) {
+  .ears { font-size: 11px; }
+  .dateline nav, .desk-only { display: none; }
+  .mob-only { display: inline; color: var(--spot); font-weight: 700; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scene { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="ticker" role="region" aria-label="What's in every edition">
+  <span class="label">Latest</span>
+  <div class="track">
+    <span class="item">One startup, every Tuesday</span>
+    <span class="item">The Story · The Business Side · Under the Hood</span>
+    <span class="item">AI Radar &amp; Quick Hits from the past seven days</span>
+    <span class="item">Every claim linked to its source</span>
+    <span class="item">YC companies · AI startups · open source · bootstrapped</span>
+    <span class="item">Free to every reader</span>
+  </div>
+</div>
+
+<div class="sheet">
+  <header>
+    <div class="ears" aria-hidden="true">
+      <div class="ear"><b>Weather:</b> fair above ground, dark and fertile below.</div>
+      <div class="ear" style="text-align:right"><b>Free</b> to every reader. Delivered Tuesdays.</div>
+    </div>
+    <div class="mast">
+      <h1>Seed &amp; Source</h1>
+      <p class="motto">How startups are planted, and what they're built from.</p>
+    </div>
+    <div class="dateline">
+      <span>Vol. I · No. 1</span>
+      <nav aria-label="Sections">
+        <a href="#c-seed">The Seed</a>
+        <a href="#c-roots">The Roots</a>
+        <a href="#c-sprout">The Sprout</a>
+        <a href="#c-stem">The Stem</a>
+        <a href="#c-bloom">The Bloom</a>
+        <a href="/issues/">Past Editions</a>
+      </nav>
+      <span class="desk-only">Every Tuesday · Free</span>
+      <a class="mob-only" href="#email-top">Subscribe free ↓</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="front" aria-labelledby="lead-title">
+      <article class="lead">
+        <p class="kicker">Our founding story</p>
+        <h2 id="lead-title" aria-label="Every company you admire was once a seed in the dark">
+          <span class="line" aria-hidden="true"><span style="--i:0">Every Company You</span></span>
+          <span class="line" aria-hidden="true"><span style="--i:1">Admire Was Once</span></span>
+          <span class="line" aria-hidden="true"><span style="--i:2">a Seed <em>in the Dark</em></span></span>
+        </h2>
+        <p class="deck">This week, and every week, the paper digs up one <span class="typer" aria-live="off"><span class="js-typer">YC company</span><span class="caret" aria-hidden="true"></span></span>, from its first idea down to its code.</p>
+        <p class="byline"><span>By the Seed &amp; Source desk</span><span>Read time: 2 minutes</span></p>
+        <div class="cols">
+          <p class="dropcap">By the time a company makes the front page, its beginning is long out of sight. The billion-dollar round, the launch on every timeline, the product your friends suddenly use: it all looks like it happened overnight. It never does.</p>
+          <p>Every one of those companies started as a seed. A founder annoyed by a problem that wouldn't go away. A first version nobody asked for. An investor who said no. Then, quietly, roots: a database someone chose, an open-source library that saved months, a decision that would matter for years.</p>
+          <p>Most startup writing covers only what grew above ground. Funding news without the code. Engineering posts without the business. Founder legends without the numbers.</p>
+          <p>Seed &amp; Source reports both halves. Each Tuesday this paper takes one company and follows it from seed to bloom. Every claim is linked to the place we found it.</p>
+        </div>
+        <p class="jump">Watch one seed grow, <a href="#scene">continued below the fold</a>.</p>
+      </article>
+
+      <aside class="side" aria-label="Subscribe and index">
+        <form class="coupon js-signup" novalidate aria-labelledby="coupon-top">
+          <span class="scissors" aria-hidden="true">✂</span>
+          <p class="title" id="coupon-top">Clip &amp; Subscribe</p>
+          <p class="sub">One startup, every Tuesday, free of charge.</p>
+          <div class="field">
+            <label for="email-top">Your email address</label>
+            <input id="email-top" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+            <input class="hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+          <button type="submit"><span>Deliver my paper</span></button>
+          <p class="note" aria-live="polite"></p>
+          <p class="fine">We'll email a link to confirm. Cancel any time, in one click.</p>
+          <div class="stamp" aria-hidden="true"><span>Check your<br>inbox</span></div>
+        </form>
+
+        <div>
+          <h3>Inside This Paper</h3>
+          <ul class="index">
+            <li><a href="#c-seed"><span>The Seed: where the idea came from</span><span>A1</span></a></li>
+            <li><a href="#c-roots"><span>The Roots: the stack beneath it</span><span>A2</span></a></li>
+            <li><a href="#c-sprout"><span>The Sprout: the moment it clicked</span><span>B1</span></a></li>
+            <li><a href="#c-stem"><span>The Stem: how it makes money</span><span>B2</span></a></li>
+            <li><a href="#c-bloom"><span>The Bloom: what's flowering now</span><span>C1</span></a></li>
+            <li><a href="#back"><span>Lessons &amp; Subscriptions</span><span>D1</span></a></li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section class="numbers" aria-label="This paper by the numbers" data-reveal>
+      <div><p class="big"><span class="js-count" data-to="1">1</span></p><p class="what">Company per edition</p></div>
+      <div><p class="big"><span class="js-count" data-to="7">7</span><small>min</small></p><p class="what">Reading time</p></div>
+      <div><p class="big"><span class="js-count" data-to="5">5</span></p><p class="what">Sections, same order every week</p></div>
+      <div><p class="big">$<span class="js-count" data-to="0">0</span></p><p class="what">Price, forever</p></div>
+    </section>
+
+    <p class="fold" aria-hidden="true">Below the fold · below the ground</p>
+  </main>
+</div>
+
+<!-- THE GROWTH SCENE -->
+<section class="scene" id="scene" data-phase="above" aria-label="How a startup grows, in five chapters">
+  <div class="sheet scene-inner">
+    <div class="stage" aria-hidden="true">
+      <svg class="plant" viewBox="0 0 400 520" role="presentation">
+        <rect class="soil-fill" x="-40" y="300" width="480" height="220" rx="4"/>
+        <g>
+          <circle class="grain" cx="60" cy="340" r="2"/><circle class="grain" cx="330" cy="360" r="2.5"/>
+          <circle class="grain" cx="110" cy="430" r="1.8"/><circle class="grain" cx="290" cy="470" r="2"/>
+          <circle class="grain" cx="200" cy="500" r="1.6"/><circle class="grain" cx="40" cy="480" r="2.2"/>
+          <circle class="grain" cx="360" cy="420" r="1.7"/><circle class="grain" cx="150" cy="370" r="1.5"/>
+        </g>
+        <path class="ground" d="M-40 300H440"/>
+        <text class="label" x="0" y="292">Above ground</text>
+        <text class="label" x="0" y="322" style="fill:var(--night-soft)">Below ground</text>
+
+        <!-- I seed -->
+        <g class="st" data-stage="0" style="color:var(--night-ink)">
+          <ellipse pathLength="1" cx="200" cy="338" rx="16" ry="11"/>
+          <path pathLength="1" d="M196 330c-3 5-3 11 0 16"/>
+        </g>
+        <!-- II roots -->
+        <g class="st" data-stage="1" style="color:var(--night-ink)">
+          <path pathLength="1" d="M200 349v70c0 30-6 50-14 72"/>
+          <path pathLength="1" d="M200 372c-18 10-40 16-62 46-10 14-16 30-20 46"/>
+          <path pathLength="1" d="M200 380c20 10 44 18 64 48 10 14 14 28 18 44"/>
+          <path pathLength="1" d="M168 400c-14 0-30 8-42 20"/>
+          <path pathLength="1" d="M236 408c16 2 30 10 40 24"/>
+          <path pathLength="1" d="M204 430c10 12 14 30 12 50"/>
+        </g>
+        <!-- III sprout -->
+        <g class="st" data-stage="2">
+          <path pathLength="1" d="M200 327V236"/>
+          <path class="leaf" pathLength="1" d="M200 270c0-20 14-30 34-30 0 20-14 30-34 30Z"/>
+          <path class="leaf" pathLength="1" d="M200 284c0-17-12-25-28-25 0 17 12 25 28 25Z"/>
+        </g>
+        <!-- IV stem -->
+        <g class="st" data-stage="3">
+          <path pathLength="1" d="M200 236V112"/>
+          <path class="leaf" pathLength="1" d="M200 206c0-22 16-34 38-34 0 22-16 34-38 34Z"/>
+          <path class="leaf" pathLength="1" d="M200 176c0-20-14-30-34-30 0 20 14 30 34 30Z"/>
+          <path class="leaf" pathLength="1" d="M200 146c0-14 10-22 24-22 0 14-10 22-24 22Z"/>
+        </g>
+        <!-- V bloom -->
+        <g class="st" data-stage="4">
+          <path class="petal" pathLength="1" d="M200 94c-10-18-10-34 0-44 10 10 10 26 0 44Z"/>
+          <path class="petal" pathLength="1" d="M200 94c10 18 10 30 0 22-10 8-10-4 0-22Z"/>
+          <path class="petal" pathLength="1" d="M200 94c-18-10-34-10-44 0 10 10 26 10 44 0Z"/>
+          <path class="petal" pathLength="1" d="M200 94c18-10 34-10 44 0-10 10-26 10-44 0Z"/>
+          <path class="petal" pathLength="1" d="M200 94c-13-14-24-24-36-24 0 12 10 23 36 24Z"/>
+          <path class="petal" pathLength="1" d="M200 94c13-14 24-24 36-24 0 12-10 23-36 24Z"/>
+          <path class="petal" pathLength="1" d="M200 94c-13 14-24 24-36 24 0-12 10-23 36-24Z"/>
+          <path class="petal" pathLength="1" d="M200 94c13 14 24 24 36 24 0-12-10-23-36-24Z"/>
+          <circle class="bud" pathLength="1" cx="200" cy="94" r="9"/>
+        </g>
+      </svg>
+      <div class="readout">
+        <div><p class="k">Growth log</p><p class="v js-when">Day 0</p></div>
+        <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+
+    <div class="chapters">
+      <article class="chapter" id="c-seed" data-when="Day 0" data-phase="under" data-reveal>
+        <p class="tag"><b>A1</b> · The Seed</p>
+        <h2>It Starts Where Nobody Is Looking</h2>
+        <p class="deck">An annoyed founder, a rough sketch, and usually a “no.”</p>
+        <div class="text">
+          <p>A founder gets fed up with a problem that won't go away. They build a rough answer, pitch it, and are often turned down. No logo yet, no users, no headline.</p>
+          <p>By the time you read about a company, this part has been buried for years. We dig it up: who was annoyed, by what, and the first version they shipped.</p>
+        </div>
+        <p class="see"><span class="lab">In every issue:</span> <b>The Story</b> <span>where the idea came from</span></p>
+      </article>
+
+      <article class="chapter" id="c-roots" data-when="Month 2" data-phase="under" data-reveal>
+        <p class="tag"><b>A2</b> · The Roots</p>
+        <h2>Plants Grow Roots Before Anyone Sees a Leaf</h2>
+        <p class="deck">Startups do too. Before the first customer, there is a stack.</p>
+        <div class="text">
+          <p>A database someone picked. An open-source library that saved six months. An engineering decision that holds the whole thing up for years.</p>
+          <p>More of it is public than ever, in open repos, changelogs and engineering blogs. We read them and explain the one decision that matters most, in plain words.</p>
+        </div>
+        <p class="see"><span class="lab">In every issue:</span> <b>Under the Hood</b> <span>the stack and the decision behind it</span></p>
+      </article>
+
+      <article class="chapter" id="c-sprout" data-when="Month 6" data-phase="above" data-reveal>
+        <p class="tag"><b>B1</b> · The Sprout</p>
+        <h2>Then, One Morning, Something Breaks the Surface</h2>
+        <p class="deck">The first customers, and the moment founders remember.</p>
+        <div class="text">
+          <p>A launch finally lands. Sometimes it's a new feature; surprisingly often it's a new sentence that explains the product better than the old one did.</p>
+          <p>That turning point is the easiest part to learn from. We find it, and we show you the proof.</p>
+        </div>
+        <p class="see"><span class="lab">In every issue:</span> <b>The Story</b> <span>the moment it clicked</span></p>
+      </article>
+
+      <article class="chapter" id="c-stem" data-when="Year 1" data-phase="above" data-reveal>
+        <p class="tag"><b>B2</b> · The Stem</p>
+        <h2>A Plant Carries Water Up. A Company Carries Money In.</h2>
+        <p class="deck">Pricing, funding and the numbers founders rarely share.</p>
+        <div class="text">
+          <p>How does it charge? Who invested, and when? How big did the team get? The part founders talk about least is the part readers want most.</p>
+          <p>We print only figures the company or reputable press reported, and we label outside estimates as estimates.</p>
+        </div>
+        <p class="see"><span class="lab">In every issue:</span> <b>The Business Side</b> <span>how it makes money</span></p>
+      </article>
+
+      <article class="chapter" id="c-bloom" data-when="Year 5" data-phase="above" data-reveal>
+        <p class="tag"><b>C1</b> · The Bloom</p>
+        <h2>The Part Everyone Sees</h2>
+        <p class="deck">It looks overnight. It never is.</p>
+        <div class="text">
+          <p>The big round, the launch on every timeline, the company your friends suddenly use. This is where most coverage starts. In this paper, it's where the story ends.</p>
+          <p>Every edition closes with what's flowering right now: the AI startups that had a notable week, plus launches, rounds and open-source releases. Every item dated and linked.</p>
+        </div>
+        <p class="see"><span class="lab">In every issue:</span> <b>AI Radar</b> + <b>Quick Hits</b> <span>what's blooming this week</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="sheet">
+  <section class="back" id="back" aria-label="About this paper and subscription">
+    <div data-reveal>
+      <h3>The Harvest</h3>
+      <p style="margin-top:10px">Every edition ends with what's worth keeping: three to five lessons you can use on your own seed, each one tied to something that really happened.</p>
+      <div class="ad"><b>Wanted: Curious Builders</b>Founders, engineers and anyone who wants to know how startups really grow.</div>
+    </div>
+    <div data-reveal>
+      <h3>Terms of This Paper</h3>
+      <dl class="facts">
+        <div><dt>Published</dt><dd>Every Tuesday, by email</dd></div>
+        <div><dt>Coverage</dt><dd>YC companies, AI startups, open-source projects, bootstrapped businesses</dd></div>
+        <div><dt>Our promise</dt><dd>Every claim linked to its source. No sponsored stories dressed up as research.</dd></div>
+        <div><dt>Price</dt><dd>Free</dd></div>
+      </dl>
+    </div>
+    <div data-reveal>
+      <form class="coupon js-signup" novalidate aria-labelledby="coupon-end">
+        <span class="scissors" aria-hidden="true">✂</span>
+        <p class="title" id="coupon-end">Subscription Form</p>
+        <p class="sub">Fill in, send, and the next edition is yours.</p>
+        <div class="field">
+          <label for="email-end">Your email address</label>
+          <input id="email-end" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+          <input class="hp" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </div>
+        <button type="submit"><span>Start my subscription</span></button>
+        <p class="note" aria-live="polite"></p>
+        <p class="fine">We'll email a link to confirm. Cancel any time, in one click.</p>
+        <div class="stamp" aria-hidden="true"><span>Check your<br>inbox</span></div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <span>Seed &amp; Source · Printed on the internet, every Tuesday.</span>
+    <span><a href="/issues/">Past editions</a></span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ticker: duplicate the items so the loop is seamless */
+  const track = document.querySelector(".ticker .track");
+  if (track && !reduce) track.innerHTML += track.innerHTML.replace(/class="item"/g, 'class="item" aria-hidden="true"');
+
+  /* typewriter: the kinds of companies the paper covers */
+  const typer = document.querySelector(".js-typer");
+  const words = ["YC company", "AI startup", "open-source project", "bootstrapped business"];
+  if (typer && !reduce) {
+    let w = 0, i = words[0].length, deleting = true;
+    const step = () => {
+      i += deleting ? -1 : 1;
+      typer.textContent = words[w].slice(0, i);
+      let wait = deleting ? 45 : 85;
+      if (deleting && i === 0) { deleting = false; w = (w + 1) % words.length; wait = 300; }
+      else if (!deleting && i === words[w].length) { deleting = true; wait = 1900; }
+      setTimeout(step, wait);
+    };
+    setTimeout(step, 2600);
+  }
+
+  /* reveal-on-scroll + count-up */
+  if (!reduce && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("anim");
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add("in");
+        for (const n of e.target.querySelectorAll(".js-count")) {
+          const to = Number(n.dataset.to); const t0 = performance.now();
+          const tick = (t) => { const k = Math.min(1, (t - t0) / 1100); n.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(tick); };
+          if (to > 0) { n.textContent = "0"; requestAnimationFrame(tick); }
+        }
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: "0px 0px -12% 0px" });
+    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+  }
+
+  /* growth scene: scroll position draws the plant, sets the phase and the growth log */
+  const scene = document.querySelector(".scene");
+  const chapters = [...document.querySelectorAll(".chapter")];
+  const stages = [...document.querySelectorAll(".plant .st")];
+  const when = document.querySelector(".js-when");
+  const dots = [...document.querySelectorAll(".dots i")];
+  if (scene && chapters.length) {
+    /* reduced motion: the plant stays fully drawn; only the log and page tone follow the reader */
+    if (!reduce) stages.forEach((g) => g.style.setProperty("--p", "0"));
+    let active = -1, ticking = false;
+    const update = () => {
+      ticking = false;
+      const vh = innerHeight;
+      let current = 0;
+      chapters.forEach((c, n) => {
+        const r = c.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height * 0.7)));
+        if (!reduce) stages[n]?.style.setProperty("--p", p.toFixed(3));
+        if (r.top < vh * 0.6) current = n;
+      });
+      if (current !== active) {
+        active = current;
+        scene.dataset.phase = chapters[current].dataset.phase;
+        if (when) when.textContent = chapters[current].dataset.when;
+        dots.forEach((d, n) => d.classList.toggle("on", n <= current));
+      }
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener("resize", update);
+    update();
+  }
+
+  /* signup coupons */
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  for (const form of document.querySelectorAll(".js-signup")) {
+    const note = form.querySelector(".note");
+    const button = form.querySelector("button");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = form.email.value.trim();
+      if (!EMAIL_RE.test(email)) {
+        note.textContent = "Please write a full email address, like you@company.com.";
+        note.dataset.state = "error";
+        form.email.focus();
+        return;
+      }
+      button.disabled = true;
+      note.textContent = "Sending to the press…";
+      note.dataset.state = "";
+      try {
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, company_website: form.company_website.value }),
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        note.textContent = "Almost there: click the link we just emailed you to confirm.";
+        note.dataset.state = "sent";
+        form.classList.add("done");
+        form.reset();
+      } catch {
+        note.textContent = "That didn't go through. Please try again in a minute.";
+        note.dataset.state = "error";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
